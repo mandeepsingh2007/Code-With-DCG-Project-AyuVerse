@@ -1,7 +1,10 @@
+/* General Styles */
 body {
   margin: 0;
   background: linear-gradient(rgb(246, 250, 255) 0%, rgb(246, 250, 255) 100%);
+  font-family: "Zilla Slab", serif;
 }
+
 .bg {
   z-index: -1;
   position: absolute;
@@ -10,6 +13,8 @@ body {
   height: 100%;
   width: 100%;
 }
+
+/* Navbar */
 .navbar {
   background-color: white;
   display: flex;
@@ -18,42 +23,69 @@ body {
   align-items: center;
   font-size: large;
   height: 85px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease-in-out;
 }
+
+.navbar:hover {
+  background-color: #f0f0f0;
+}
+
 .brand {
   display: flex;
   margin: 5px 5px 5px 120px;
   padding: 5px;
 }
+
 .logo {
   width: 25%;
 }
+
 .brand-name {
   position: relative;
   top: 6.5px;
   left: 5px;
   font-size: larger;
 }
+
 .nav-link {
   text-decoration: none;
   color: black;
   margin: 5px;
   padding: 15px;
+  transition: color 0.3s ease-in-out;
 }
+
+.nav-link:hover {
+  color: #00796b;
+}
+
 .faq-link {
   border-radius: 40px;
   background-color: rgb(0, 47, 0);
   color: white;
+  transition: background-color 0.3s ease-in-out;
 }
+
+.faq-link:hover {
+  background-color: #004d40;
+}
+
+/* Intro Section */
 .intro {
   width: 500px;
   font-size: larger;
   margin: 15px 5px 60px 80px;
+  animation: fadeIn 2s ease-in-out;
 }
+
 .tagline {
   margin: 250px 5px 15px 80px;
   font-size: 55px;
   width: 500px;
+  animation: slideInLeft 1.5s ease-in-out;
 }
+
 .explore {
   padding: 5px;
   margin: 60px 5px 0px 80px;
@@ -63,22 +95,36 @@ body {
   background-color: rgb(0, 47, 0);
   border-radius: 30px;
   padding: 15px;
+  transition: background-color 0.3s ease-in-out;
+  animation: fadeIn 2s ease-in-out;
 }
+
+.explore:hover {
+  background-color: #004d40;
+}
+
+/* Approach Section */
 .approach {
   margin: 350px 10px 10px 10px;
   text-align: center;
+  animation: fadeIn 2s ease-in-out;
 }
+
 .approach-ways {
   display: flex;
   justify-content: space-evenly;
   margin: 80px 0px 15px 0px;
   align-items: center;
 }
+
 .approach-img {
   width: 40%;
+  animation: zoomIn 1.5s ease-in-out;
 }
+
 .approach-1 {
   width: 25%;
+  animation: zoomIn 1.5s ease-in-out;
 }
 
 .zilla-slab-light {
@@ -158,20 +204,25 @@ body {
 h1 {
   font-size: 35px;
 }
+
 p {
   font-size: larger;
 }
+
 .consult {
   margin: 120px 0px 60px 0px;
   text-align: center;
 }
+
 .consult-ways {
   display: flex;
   justify-content: space-around;
 }
+
 .consult-img {
   width: 80%;
 }
+
 .consult-txt {
   border: 1px solid rgb(91, 91, 91);
   border-radius: 5px;
@@ -181,14 +232,17 @@ p {
   position: absolute;
   top: 238.5vh;
 }
+
 .wellness-store {
   margin-top: 300px;
   text-align: center;
   padding: 15px;
 }
+
 .store-item {
   width: 18.5%;
 }
+
 .store-items {
   display: flex;
   justify-content: space-evenly;
@@ -197,21 +251,30 @@ p {
   padding: 10px;
   padding-bottom: 30px;
 }
+
 .ai-chat {
   text-align: center;
 }
+
+/* Chatbot Section */
 .chatbot {
   display: flex;
   justify-content: space-evenly;
   text-align: center;
+  animation: fadeIn 2s ease-in-out;
 }
+
 .chatbot-img {
   width: 18.5%;
   margin-bottom: 300px;
+  animation: bounceIn 2s ease-in-out;
 }
+
 .journey {
   text-align: right;
+  animation: fadeIn 2s ease-in-out;
 }
+
 .journey-bg {
   z-index: -1;
   position: absolute;
@@ -219,14 +282,73 @@ p {
   top: 435vh;
   left: 0vw;
   height: 95%;
+  animation: fadeIn 2s ease-in-out;
 }
+
 .journey-head {
   margin-right: 235px;
   font-size: 45px;
+  animation: slideInRight 1.5s ease-in-out;
 }
+
 .journey-txt {
   width: 600px;
   text-align: left;
   margin-left: 55vw;
   font-size: x-large;
+  animation: slideInRight 1.5s ease-in-out;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
