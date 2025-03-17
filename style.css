@@ -1,8 +1,11 @@
 /* General Styles */
 body {
   margin: 0;
+  max-width: 100%;
+  overflow-x: hidden;
   background: linear-gradient(rgb(246, 250, 255) 0%, rgb(246, 250, 255) 100%);
   font-family: "Zilla Slab", serif;
+  z-index: -1;
 }
 
 .bg {
@@ -10,12 +13,13 @@ body {
   position: absolute;
   left: 0px;
   top: 0px;
+  overflow-x: hidden;
   height: 100%;
   width: 100%;
 }
-
 /* Navbar */
 .navbar {
+  z-index: 1;
   position: fixed;
   top: 0px;
   background-color: white;
@@ -78,14 +82,14 @@ body {
   width: 500px;
   font-size: larger;
   margin: 15px 5px 60px 80px;
-  animation: fadeIn 2s ease-in-out;
+  /* animation: fadeIn 2s ease-in-out; */
 }
 
 .tagline {
   margin: 300px 5px 15px 80px;
   font-size: 55px;
   width: 500px;
-  animation: slideInLeft 1.5s ease-in-out;
+  /* animation: slideInLeft 1.5s ease-in-out; */
 }
 
 .explore {
@@ -98,7 +102,7 @@ body {
   border-radius: 30px;
   padding: 15px;
   transition: background-color 0.3s ease-in-out;
-  animation: fadeIn 2s ease-in-out;
+  /* animation: fadeIn 2s ease-in-out; */
 }
 
 .explore:hover {
@@ -109,7 +113,7 @@ body {
 .approach {
   margin: 350px 10px 10px 0px;
   text-align: center;
-  animation: fadeIn 2s ease-in-out;
+  /* animation: fadeIn 2s ease-in-out; */
 }
 
 .approach-ways {
@@ -121,12 +125,12 @@ body {
 
 .approach-img {
   width: 40%;
-  animation: zoomIn 1.5s ease-in-out;
+  /* animation: zoomIn 1.5s ease-in-out; */
 }
 
 .approach-1 {
   width: 25%;
-  animation: zoomIn 1.5s ease-in-out;
+  /* animation: zoomIn 1.5s ease-in-out; */
 }
 
 .zilla-slab-light {
@@ -231,7 +235,7 @@ p {
   margin-left: 50px;
   text-align: start;
   position: absolute;
-  top: 190.5vh;
+  top: -1vh;
   padding-top: 45vh;
   padding-left: 5px;
   border: 1px solid rgb(91, 91, 91);
@@ -267,19 +271,19 @@ p {
   display: flex;
   justify-content: space-evenly;
   text-align: center;
-  animation: fadeIn 2s ease-in-out;
+  /* animation: fadeIn 2s ease-in-out; */
   margin: 20px 5px 5px 5px;
 }
 
 .chatbot-img {
   width: 18.5%;
   margin-bottom: 300px;
-  animation: bounceIn 2s ease-in-out;
+  /* animation: bounceIn 2s ease-in-out; */
 }
 
 .journey {
   text-align: right;
-  animation: fadeIn 2s ease-in-out;
+  /* animation: fadeIn 2s ease-in-out; */
 }
 
 .journey-bg {
@@ -289,13 +293,13 @@ p {
   top: 437vh;
   left: 0vw;
   height: 95%;
-  animation: fadeIn 2s ease-in-out;
+  /* animation: fadeIn 2s ease-in-out; */
 }
 
 .journey-head {
   margin-right: 235px;
   font-size: 45px;
-  animation: slideInRight 1.5s ease-in-out;
+  /* animation: slideInRight 1.5s ease-in-out; */
 }
 
 .journey-txt {
@@ -303,10 +307,10 @@ p {
   text-align: left;
   margin-left: 55vw;
   font-size: x-large;
-  animation: slideInRight 1.5s ease-in-out;
+  /* animation: slideInRight 1.5s ease-in-out; */
 }
 
-/* Animations */
+/* Animations
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -358,7 +362,7 @@ p {
     transform: scale(1);
     opacity: 1;
   }
-}
+} */
 .footer-link {
   text-decoration: none;
   color: black;
