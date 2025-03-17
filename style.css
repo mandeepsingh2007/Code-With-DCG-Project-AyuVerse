@@ -359,3 +359,22 @@ p {
     opacity: 1;
   }
 }
+.footer-link {
+  text-decoration: none;
+  color: black;
+}
+.footer {
+  display: flex;
+  margin-top: 250px;
+  align-items: start;
+  justify-content: space-evenly;
+  height: 200px;
+}
+.footer-logo {
+  width: 40%;
+  margin-left: 0px;
+}
+.footer-item {
+  display: flex;
+  flex-direction: column;
+}
