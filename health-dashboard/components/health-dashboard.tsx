@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import jsPDF from "jspdf";
 import { Download, Heart, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,19 +8,83 @@ import { VitalSignsCharts } from "@/components/vital-signs-charts";
 
 export function HealthDashboard() {
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
+  const [heartRateData, setHeartRateData] = useState<{ time: string; value: number }[]>([]);
+  const [stressData, setStressData] = useState<{ time: string; value: number }[]>([]);
+  const [temperatureData, setTemperatureData] = useState<{ time: string; value: number }[]>([]);
+
+  // Function to generate random data for real-time updates
+  const generateHeartRateData = (count = 24) => {
+    return Array.from({ length: count }, (_, i) => ({
+      time: `${i}:00`,
+      value: 72 + Math.floor(Math.random() * 15) - 5,
+    }));
+  };
+
+  const generateStressData = (count = 24) => {
+    return Array.from({ length: count }, (_, i) => ({
+      time: `${i}:00`,
+      value: Math.floor(Math.random() * 80) + 10,
+    }));
+  };
+
+  const generateTemperatureData = (count = 24) => {
+    return Array.from({ length: count }, (_, i) => ({
+      time: `${i}:00`,
+      value: +(98.6 + (Math.random() * 1.4 - 0.7)).toFixed(1),
+    }));
+  };
+
+  // Simulate real-time updates
+  useEffect(() => {
+    setHeartRateData(generateHeartRateData());
+    setStressData(generateStressData());
+    setTemperatureData(generateTemperatureData());
+
+    const interval = setInterval(() => {
+      setHeartRateData((prev) => {
+        const newData = [...prev.slice(1)];
+        const lastTime = Number.parseInt(prev[prev.length - 1]?.time || "0");
+        newData.push({
+          time: `${(lastTime + 1) % 24}:00`,
+          value: 72 + Math.floor(Math.random() * 15) - 5,
+        });
+        return newData;
+      });
+
+      setStressData((prev) => {
+        const newData = [...prev.slice(1)];
+        const lastTime = Number.parseInt(prev[prev.length - 1]?.time || "0");
+        newData.push({
+          time: `${(lastTime + 1) % 24}:00`,
+          value: Math.floor(Math.random() * 80) + 10,
+        });
+        return newData;
+      });
+
+      setTemperatureData((prev) => {
+        const newData = [...prev.slice(1)];
+        const lastTime = Number.parseInt(prev[prev.length - 1]?.time || "0");
+        newData.push({
+          time: `${(lastTime + 1) % 24}:00`,
+          value: +(98.6 + (Math.random() * 1.4 - 0.7)).toFixed(1),
+        });
+        return newData;
+      });
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleDownloadReport = async () => {
     setIsGeneratingReport(true);
 
-    // Sample data (replace with real-time values)
-    const heartRate = {
-      current: 75,
-      min: 67,
-      avg: 74,
-      max: 81,
-    };
-    const stressLevel = "Moderate"; // Example stress level
-    const temperature = "98.6°F"; // Example temperature
+    // Get the latest values
+    const latestHeartRate = heartRateData[heartRateData.length - 1]?.value || "N/A";
+    const minHeartRate = Math.min(...heartRateData.map((d) => d.value), 72);
+    const avgHeartRate = (heartRateData.reduce((acc, d) => acc + d.value, 0) / heartRateData.length).toFixed(1);
+    const maxHeartRate = Math.max(...heartRateData.map((d) => d.value), 72);
+    const latestStress = stressData[stressData.length - 1]?.value || "N/A";
+    const latestTemperature = temperatureData[temperatureData.length - 1]?.value || "N/A";
 
     // Generate PDF
     const pdf = new jsPDF();
@@ -36,13 +100,13 @@ export function HealthDashboard() {
     pdf.text("-----------------------------", 20, 45);
 
     pdf.text(`Heart Rate:`, 20, 55);
-    pdf.text(`- Current: ${heartRate.current} BPM`, 30, 65);
-    pdf.text(`- Min: ${heartRate.min} BPM`, 30, 75);
-    pdf.text(`- Avg: ${heartRate.avg} BPM`, 30, 85);
-    pdf.text(`- Max: ${heartRate.max} BPM`, 30, 95);
+    pdf.text(`- Current: ${latestHeartRate} BPM`, 30, 65);
+    pdf.text(`- Min: ${minHeartRate} BPM`, 30, 75);
+    pdf.text(`- Avg: ${avgHeartRate} BPM`, 30, 85);
+    pdf.text(`- Max: ${maxHeartRate} BPM`, 30, 95);
 
-    pdf.text(`Stress Level: ${stressLevel}`, 20, 110);
-    pdf.text(`Body Temperature: ${temperature}`, 20, 125);
+    pdf.text(`Stress Level: ${latestStress}`, 20, 110);
+    pdf.text(`Body Temperature: ${latestTemperature}°F`, 20, 125);
 
     pdf.save("health_report.pdf");
 
@@ -66,10 +130,6 @@ export function HealthDashboard() {
             <Download className="mr-2 h-4 w-4" />
             {isGeneratingReport ? "Generating..." : "Download Report"}
           </Button>
-          <Button className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600">
-            <MessageSquare className="mr-2 h-4 w-4" />
-            Consult Doctor
-          </Button>
         </div>
       </div>
 
@@ -82,7 +142,11 @@ export function HealthDashboard() {
             <CardDescription>Real-time health metrics</CardDescription>
           </CardHeader>
           <CardContent>
-            <VitalSignsCharts />
+            <VitalSignsCharts
+              heartRateData={heartRateData}
+              stressData={stressData}
+              temperatureData={temperatureData}
+            />
           </CardContent>
         </Card>
       </div>

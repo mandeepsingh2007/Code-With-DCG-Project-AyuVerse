@@ -1,72 +1,83 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import axios from "axios";
 
-const SHOPIFY_STORE_URL = process.env.SHOPIFY_STORE_URL || "";
-const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_ACCESS_TOKEN || "";
+const SHOPIFY_GRAPHQL_URL = "https://aiwellnessstore.myshopify.com/admin/api/2023-10/graphql.json";
+const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_ACCESS_TOKEN; // Use environment variable
 
-export async function POST(req: NextRequest) {
-    console.log("📨 Received request at /api/shopify");
+// Define TypeScript interfaces
+interface ShopifyProduct {
+  id: string;
+  title: string;
+  descriptionHtml: string;
+  images: {
+    edges: {
+      node: {
+        originalSrc: string;
+      };
+    }[];
+  };
+  variants: {
+    edges: {
+      node: {
+        price: string;
+      };
+    }[];
+  };
+}
 
-    try {
-        let requestBody;
-        try {
-            requestBody = await req.json();
-        } catch (error) {
-            console.error("🛑 Failed to parse JSON:", error);
-            return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
-        }
-
-        if (!requestBody.keywords) {
-            console.error("❌ Missing 'keywords' in request body");
-            return NextResponse.json({ error: "Missing keywords" }, { status: 400 });
-        }
-
-        const keywords = requestBody.keywords;
-        console.log("🔍 Searching Shopify for:", keywords);
-
-        if (!SHOPIFY_STORE_URL || !SHOPIFY_ACCESS_TOKEN) {
-            console.error("❌ Missing Shopify credentials");
-            return NextResponse.json({ error: "Missing Shopify API credentials" }, { status: 500 });
-        }
-
-        const query = `
-            {
-                products(first: 5, query: "${keywords}") {
-                    edges {
-                        node {
-                            id
-                            title
-                            description
-                            images(first: 1) { edges { node { src } } }
-                            variants(first: 1) { edges { node { price } } }
-                        }
-                    }
+export async function GET() {
+  try {
+    const query = `
+      {
+        products(first: 10) {
+          edges {
+            node {
+              id
+              title
+              descriptionHtml
+              images(first: 1) {
+                edges {
+                  node {
+                    originalSrc
+                  }
                 }
+              }
+              variants(first: 1) {
+                edges {
+                  node {
+                    price
+                  }
+                }
+              }
             }
-        `;
-
-        console.log("📨 Sending request to Shopify...");
-
-        const response = await axios.post(
-            `https://aiwellnessstore.myshopify.com/admin/api/2023-10/graphql.json`,
-            { query },
-            { headers: { 
-                "X-Shopify-Access-Token": SHOPIFY_ACCESS_TOKEN, 
-                "Content-Type": "application/json" 
-            }}
-        );
-
-        if (!response.data || !response.data.data) {
-            console.error("❌ Unexpected Shopify response format:", response.data);
-            return NextResponse.json({ error: "Invalid response from Shopify" }, { status: 500 });
+          }
         }
+      }
+    `;
 
-        console.log("✅ Shopify API Response:", response.data.data.products.edges);
+    const response = await axios.post(
+      SHOPIFY_GRAPHQL_URL,
+      { query },
+      {
+        headers: {
+          "X-Shopify-Access-Token": SHOPIFY_ACCESS_TOKEN,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-        return NextResponse.json({ products: response.data.data.products.edges }, { status: 200 });
+    // Extract and format the products
+    const products = response.data.data.products.edges.map(({ node }: { node: ShopifyProduct }) => ({
+      id: node.id,
+      name: node.title,
+      description: node.descriptionHtml,
+      price: node.variants.edges[0]?.node.price || "N/A",
+      image: node.images.edges[0]?.node.originalSrc || "/placeholder.svg",
+    }));
 
-    } catch (error) {
-        console.error("🔥 Error in /api/shopify:", error);
-        return NextResponse.json({ error: "Shopify API request failed" }, { status: 500 });
-    }
+    return NextResponse.json(products);
+  } catch (error) {
+    console.error("Error fetching Shopify products:", error);
+    return NextResponse.json({ error: "Failed to fetch products" }, { status: 500 });
+  }
 }

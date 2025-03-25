@@ -52,58 +52,6 @@ export default function Home() {
         </div>
       </header>
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-              <div className="space-y-4">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                  Your AI-Powered Wellness Journey
-                </h1>
-                <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                Upload your health report (PDF), and our AI will analyze your vital signs to recommend the best Ayurvedic products for your well-being.
-                </p>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
-         
-                </div>
-                {/* PDF Upload Section */}
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Upload Vital Signs Report (PDF)
-                  </label>
-                  <input
-                    type="file"
-                    accept="application/pdf"
-                    className="mt-2 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300"
-                    onChange={(e) => console.log(e.target.files?.[0])} // Replace with actual handling logic
-                  />
-                </div>
-              </div>
-              <img
-                src="/placeholder.svg?height=550&width=550"
-                width="550"
-                height="550"
-                alt="Hero"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last"
-              />
-            </div>
-          </div>
-        </section>
-
-
-        <section id="products" className="w-full py-12 md:py-24">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Featured Products</h2>
-                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Discover our premium selection of Ayurvedic wellness products
-                </p>
-              </div>
-            </div>
-            <ProductGrid />
-          </div>
-        </section>
-
         <section id="diagnostics" className="w-full py-12 md:py-24 bg-muted/50">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -115,6 +63,21 @@ export default function Home() {
               </div>
             </div>
             <DiagnosticsTool />
+          </div>
+        </section>
+
+
+        <section id="products" className="w-full py-12 md:py-24">
+          <div className="container px-4 md:px-6">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Recommended Products</h2>
+                <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Discover our premium selection of Ayurvedic wellness products
+                </p>
+              </div>
+            </div>
+            <ProductGrid />
           </div>
         </section>
 

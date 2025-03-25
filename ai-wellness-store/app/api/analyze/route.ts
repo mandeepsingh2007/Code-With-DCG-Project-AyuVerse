@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
             - Stress Level: ${stressLevel}
             - Body Temperature: ${temperature}°F
             
-            Recommend Ayurvedic products from my Shopify store that can cure these vital signs Only Recommend me products from shopify store only give no details only recommend me products.
+            Recommend Ayurvedic products from my Shopify store that can cure these vital signs Only Recommend me products from shopify store only give no details only recommend me tell me prices in indian rupees this is my shopify store link: https://aiwellnessstore.myshopify.com/.
         `;
 
         const result = await model.generateContent(prompt);

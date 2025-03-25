@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 
 const SHOPIFY_STORE_URL = process.env.SHOPIFY_STORE_URL || "https://aiwellnessstore.myshopify.com/";
-const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_ACCESS_TOKEN || "";
+const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_ACCESS_TOKEN || "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";
 
 export async function POST(req: NextRequest) {
     try {
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
         `;
 
         const response = await axios.post(
-            `${SHOPIFY_STORE_URL}/admin/api/2024-01/graphql.json`,
+            `${SHOPIFY_STORE_URL}/admin/api/2025-01/graphql.json`,
             { query },
             { headers: { "X-Shopify-Access-Token": SHOPIFY_ACCESS_TOKEN, "Content-Type": "application/json" } }
         );
